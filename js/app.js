@@ -13,7 +13,7 @@ const allAnimals = [];
 
 
 // constructor
-function Animal(animal){
+function Image(animal){
     this.image_url = animal.image_url;
     this.title = animal.title;
     this.description = animal.description;
