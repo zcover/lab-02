@@ -21,7 +21,6 @@ function Image(image_url, title, description, keyword, horns){
     this.keyword = keyword;
     this.horns = horns;
 
-    allImages.push(this);
 }
 
 // Helper Function
