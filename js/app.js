@@ -1,7 +1,8 @@
 'use strict';
 
 //global variables
-const allAnimals = [];
+const allImages = [];
+const newImages = [];
 
 
 
@@ -13,53 +14,59 @@ const allAnimals = [];
 
 
 // constructor
-function Animal(animal){
-    this.image_url = animal.image_url;
-    this.title = animal.title;
-    this.description = animal.description;
-    this.keyword = animal.keyword;
-    this.horns = animal.horns;
+function Image(image_url, title, description, keyword, horns){
+    this.url = image_url;
+    this.title = title;
+    this.description = description;
+    this.keyword = keyword;
+    this.horns = horns;
 
-    allAnimals.push(this);
+    allImages.push(this);
 }
 
-
-
-
-// .get
-$.get('data/page-1.json', (data) => {
-    data.forEach(value => {
-        (new Animal(value))
-    })
-});
-
-
-
-
-
 // Helper Function
-const dommanip = function(value) {
+Image.prototype.renderImage = function() {
     const $myTemplate = $('#photo-template').html();
     const $newSection = $('<section></section>');
     $newSection.html($myTemplate);
 
-    $newSection.find('h2').text(this.title);
-    $newSection.find('img').attr('src', this.image_url);
-    $newSection.find('p').text(this.horns);
-
+   $newSection.find('h2').html(this.title);
+   $newSection.find('#descript').text(this.description);
+   $newSection.find('img').attr('src', this.url);
+   $newSection.find('#keyword').text(this.keyword);
+   $newSection.find('#horns').text(this.horns);
+    
     $('main').append($newSection);
 }
 
 
-function renderToPage(){
-    allAnimals.forEach(animal => {
-        console.log('animal is:', animal);
-        animal.dommanip();
-    })
-
+const getAllimages = ()=>{
+    $.get('data/page-1.json').then(images => {
+        images.forEach(object => {
+            allImages.push(new Image (object.image_url, object.title, object.description, object.keyword, object.horns))
+            // oneImage.renderToPage(); 
+            
+        });
+        allImages.forEach(image => {
+            image.renderImage();
+        })
+    });
 }
 
-renderToPage();
+
+function renderToPage(){
+    allImages.forEach(image => {
+        image.renderImage();
+    })   
+}
+
+$().ready(() => {
+    getAllimages()
+});
+
+// .get
+
+// renderToPage();
 //cross fingers
 
 
