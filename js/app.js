@@ -32,9 +32,16 @@ Image.prototype.render = function() {
     $('main').append($templateClone);
 }
 
+//make paramater fo doanything wooh
+
+//make page-1 and page-2 json variables
+
+//dynamically run doeverything(param) with button push
+let page1 = 'data/page-1.json';
+let page2 = 'data/page-2.json'
 // get with render
-function doeverything() {
-    $.get('data/page-1.json', (data) => {
+function doeverything(page) {
+    $.get(page, (data) => {
         data.forEach(dataofdata => {
             (new Image(dataofdata))
         })
@@ -89,11 +96,27 @@ const handleFilter = () => {
         }
     })
 }
-
 function renderAll(){ //helper
     renderToPage();
     populateFilter();
     handleFilter();
 }
 
-doeverything();
+//BUTTON STUFF
+$('#button1').click(function(){
+    console.log('you clicked button one!');
+    //function that clears the page
+    doeverything(page1);
+});
+
+$('#button2').click(function(){
+    console.log('you clicked button two!')
+    //function that clears the page
+    doeverything(page2);
+});
+
+
+doeverything()
+
+
+
