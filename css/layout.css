@@ -1,0 +1,12 @@
+body{
+    width: 400px;
+    height: 100%;
+}
+
+
+main > section {
+    width: 200px;
+    height: auto;
+    
+
+}
