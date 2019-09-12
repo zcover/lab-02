@@ -1,7 +1,7 @@
 'use strict';
 
 //global variables
-const allImages = [];
+let allImages = [];
 
 
 // constructor
@@ -39,7 +39,8 @@ $.get('data/page-1.json', (data) => {
     data.forEach(dataofdata => {
         (new Image(dataofdata))
     })
-    renderToPage()
+    renderToPage();
+    populateFilter();
 });
 
 // ========= Helper Functions =========== //
@@ -55,13 +56,20 @@ function renderToPage(){
 //create a function that filters duplicates-- will be used to generate dropdown list
 const populateFilter = () => {
     let filterKeywords = [];
-
+    console.log('I am at line 58 keywords =', filterKeywords)
     //make an array of unique keywords (allImages)
     allImages.forEach(image => {
+        console.log('I am before the IF keywords =', filterKeywords, 'image is =', image )
+
         if(!filterKeywords.includes(image.keyword)){
+            console.log('I am inside the if statement keywords =', filterKeywords);
+
             filterKeywords.push(image.keyword);
+        
         }
+        
     })
+    console.log('i am on 71', filterKeywords);
     //sort alphabetically
     filterKeywords.sort();
 
@@ -88,3 +96,4 @@ const handleFilter = () => {
         }
     })
 }
+
