@@ -1,15 +1,7 @@
 'use strict';
 
 //global variables
-const allAnimals = [];
-
-
-
-// DONE Use AJAX, specifically $.get(), to read the provided JSON file.
-
-// DONE Each object should become a new instance of a constructor function. Refer to the data to determine the necessary properties.
-
-// Use jQuery to make a copy of the HTML template of the photo component. For each object, fill in the duplicated template with its properties, then append the copy to the DOM.
+const allImages = [];
 
 
 // constructor
@@ -20,52 +12,79 @@ function Image(animal){
     this.keyword = animal.keyword;
     this.horns = animal.horns;
 
-    allAnimals.push(this);
+    allImages.push(this);
 }
 
+//render prototype
+Image.prototype.render = function() {
+    //ake a div
+    let $templateClone = $('<div></div>');
+
+    //fill that div with an html of the #photo-template
+    $templateClone.html($('#photo-template').html());
+
+    //find elements, fill with things from constructor
+    $templateClone.find('h2').text(this.title);
+    $templateClone.find('img').attr('src', this.image_url);
+    $templateClone.find('p').text(this.keyword);
+    $templateClone.find('p').text(this.description);
 
 
+    $templateClone.attr('class', this.keyword);
+    $('main').append($templateClone);
+}
 
-// .get
+// get with render
 $.get('data/page-1.json', (data) => {
-    data.forEach(value => {
-        (new Animal(value))
+    data.forEach(dataofdata => {
+        (new Image(dataofdata))
     })
+    renderToPage()
 });
 
-
-
-
-
-// Helper Function
-const dommanip = function(value) {
-    const $myTemplate = $('#photo-template').html();
-    const $newSection = $('<section></section>');
-    $newSection.html($myTemplate);
-
-    $newSection.find('h2').text(this.title);
-    $newSection.find('img').attr('src', this.image_url);
-    $newSection.find('p').text(this.horns);
-
-    $('main').append($newSection);
-}
-
-
+// ========= Helper Functions =========== //
 function renderToPage(){
-    allAnimals.forEach(animal => {
-        console.log('animal is:', animal);
-        animal.dommanip();
+    allImages.forEach(animal => {
+        // console.log('animal is:', animal);
+        animal.render()
     })
-
 }
 
-renderToPage();
-//cross fingers
+
+// ============== Form ===============
+//create a function that filters duplicates-- will be used to generate dropdown list
+const populateFilter = () => {
+    let filterKeywords = [];
 
 
+    //make an array of unique keywords (allImages)
+    allImages.forEach(image => {
+        if(!filterKeywords.includes(image.keyword)){
+            filterKeywords.push(image.keyword);
+        }
+    })
+    //sort alphabetically
+    filterKeywords.sort();
 
-{/* <section id="photo-template">
-        <h2></h2>
-        <img src="" alt="">
-        <p></p>
-      </section> */}
+    //array filterKeywords
+    filterKeywords.forEach(keyword => {
+        let optionTag = `<option value ="${keyword}">${keyword}</option>`;
+        $('select').append(optionTag);
+    })
+};
+
+
+//do something when they click on a selection
+const handleFilter = () => {
+    $('select)').on('change', function() {
+        //find the value of the thing that was clicked(changed)
+        let selected = $(this).val();
+
+        //as long as it wasn't the default
+        if(selected !== 'default'){
+            $('div').hide();
+            //fade in only the things that were clicked on
+            $(`div.${selected}`).fadeIn()
+        }
+    })
+}
