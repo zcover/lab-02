@@ -26,10 +26,8 @@ Image.prototype.render = function() {
     //find elements, fill with things from constructor
     $templateClone.find('h2').text(this.title);
     $templateClone.find('img').attr('src', this.image_url);
-    $templateClone.find('p').text(this.keyword);
+    $templateClone.find('#keyword').text(this.keyword);
     $templateClone.find('p').text(this.description);
-
-
     $templateClone.attr('class', this.keyword);
     $('main').append($templateClone);
 }
@@ -39,8 +37,7 @@ $.get('data/page-1.json', (data) => {
     data.forEach(dataofdata => {
         (new Image(dataofdata))
     })
-    renderToPage();
-    populateFilter();
+    renderAll();
 });
 
 // ========= Helper Functions =========== //
@@ -51,13 +48,14 @@ function renderToPage(){
     })
 }
 
+
 // ============== Form ===============
 //create a function that filters duplicates-- will be used to generate dropdown list
 const populateFilter = () => {
     let filterKeywords = [];
     //make an array of unique keywords (allImages)
     allImages.forEach(image => {
-
+        
         if(!filterKeywords.includes(image.keyword)){
             filterKeywords.push(image.keyword);
         }
@@ -65,7 +63,7 @@ const populateFilter = () => {
     })
     //sort alphabetically
     filterKeywords.sort();
-
+    
     //array filterKeywords
     filterKeywords.forEach(keyword => {
         let optionTag = `<option value ="${keyword}">${keyword}</option>`;
@@ -75,10 +73,11 @@ const populateFilter = () => {
 
 //do something when they click on a selection
 const handleFilter = () => {
-    $('select)').on('change', function() {
+    $('select').on('change', function() {
         //find the value of the thing that was clicked(changed)
         let selected = $(this).val();
-
+        console.log(selected)
+        
         //as long as it wasn't the default
         if(selected !== 'default'){
             $('div').hide();
@@ -87,4 +86,11 @@ const handleFilter = () => {
         }
     })
 }
+
+function renderAll(){
+    renderToPage();
+    populateFilter();
+    handleFilter();
+}
+
 
