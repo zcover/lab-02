@@ -33,12 +33,15 @@ Image.prototype.render = function() {
 }
 
 // get with render
-$.get('data/page-1.json', (data) => {
-    data.forEach(dataofdata => {
-        (new Image(dataofdata))
-    })
-    renderAll();
-});
+function doeverything() {
+    $.get('data/page-1.json', (data) => {
+        data.forEach(dataofdata => {
+            (new Image(dataofdata))
+        })
+        renderAll();
+    });
+
+}
 
 // ========= Helper Functions =========== //
 function renderToPage(){
@@ -87,10 +90,10 @@ const handleFilter = () => {
     })
 }
 
-function renderAll(){
+function renderAll(){ //helper
     renderToPage();
     populateFilter();
     handleFilter();
 }
 
-
+doeverything();
