@@ -55,7 +55,7 @@ function renderToPage(){
 //create a function that filters duplicates-- will be used to generate dropdown list
 const populateFilter = () => {
     let filterKeywords = [];
-
+}
 
     //make an array of unique keywords (allImages)
     allImages.forEach(image => {
@@ -72,6 +72,7 @@ const populateFilter = () => {
         $('select').append(optionTag);
     })
 };
+
 
 
 //do something when they click on a selection
