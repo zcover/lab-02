@@ -2,76 +2,90 @@
 
 //global variables
 const allImages = [];
-const newImages = [];
-
-
-
-// DONE Use AJAX, specifically $.get(), to read the provided JSON file.
-
-// DONE Each object should become a new instance of a constructor function. Refer to the data to determine the necessary properties.
-
-// Use jQuery to make a copy of the HTML template of the photo component. For each object, fill in the duplicated template with its properties, then append the copy to the DOM.
 
 
 // constructor
-function Image(image_url, title, description, keyword, horns){
-    this.url = image_url;
-    this.title = title;
-    this.description = description;
-    this.keyword = keyword;
-    this.horns = horns;
+function Image(animal){
+    this.image_url = animal.image_url;
+    this.title = animal.title;
+    this.description = animal.description;
+    this.keyword = animal.keyword;
+    this.horns = animal.horns;
 
+    allImages.push(this);
 }
 
-// Helper Function
-Image.prototype.renderImage = function() {
-    const $myTemplate = $('#photo-template').html();
-    const $newSection = $('<section></section>');
-    $newSection.html($myTemplate);
+//render prototype
+Image.prototype.render = function() {
+    //ake a div
+    let $templateClone = $('<div></div>');
 
-   $newSection.find('h2').html(this.title);
-   $newSection.find('#descript').text(this.description);
-   $newSection.find('img').attr('src', this.url);
-   $newSection.find('#keyword').text(this.keyword);
-   $newSection.find('#horns').text(this.horns);
-    
-    $('main').append($newSection);
+    //fill that div with an html of the #photo-template
+    $templateClone.html($('#photo-template').html());
+
+    //find elements, fill with things from constructor
+    $templateClone.find('h2').text(this.title);
+    $templateClone.find('img').attr('src', this.image_url);
+    $templateClone.find('p').text(this.keyword);
+    $templateClone.find('p').text(this.description);
+
+
+    $templateClone.attr('class', this.keyword);
+    $('main').append($templateClone);
 }
 
-
-const getAllimages = ()=>{
-    $.get('data/page-1.json').then(images => {
-        images.forEach(object => {
-            allImages.push(new Image (object.image_url, object.title, object.description, object.keyword, object.horns))
-            // oneImage.renderToPage(); 
-            
-        });
-        allImages.forEach(image => {
-            image.renderImage();
-        })
-    });
-}
-
-
-function renderToPage(){
-    allImages.forEach(image => {
-        image.renderImage();
-    })   
-}
-
-$().ready(() => {
-    getAllimages()
+// get with render
+$.get('data/page-1.json', (data) => {
+    data.forEach(dataofdata => {
+        (new Image(dataofdata))
+    })
+    renderToPage()
 });
 
-// .get
+// ========= Helper Functions =========== //
+function renderToPage(){
+    allImages.forEach(animal => {
+        // console.log('animal is:', animal);
+        animal.render()
+    })
+}
 
-// renderToPage();
-//cross fingers
+
+// ============== Form ===============
+//create a function that filters duplicates-- will be used to generate dropdown list
+const populateFilter = () => {
+    let filterKeywords = [];
+}
+
+    //make an array of unique keywords (allImages)
+    allImages.forEach(image => {
+        if(!filterKeywords.includes(image.keyword)){
+            filterKeywords.push(image.keyword);
+        }
+    })
+    //sort alphabetically
+    filterKeywords.sort();
+
+    //array filterKeywords
+    filterKeywords.forEach(keyword => {
+        let optionTag = `<option value ="${keyword}">${keyword}</option>`;
+        $('select').append(optionTag);
+    })
+};
 
 
 
-{/* <section id="photo-template">
-        <h2></h2>
-        <img src="" alt="">
-        <p></p>
-      </section> */}
+//do something when they click on a selection
+const handleFilter = () => {
+    $('select)').on('change', function() {
+        //find the value of the thing that was clicked(changed)
+        let selected = $(this).val();
+
+        //as long as it wasn't the default
+        if(selected !== 'default'){
+            $('div').hide();
+            //fade in only the things that were clicked on
+            $(`div.${selected}`).fadeIn()
+        }
+    })
+}
