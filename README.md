@@ -17,23 +17,23 @@ Actual time needed to complete: ___2.5 hrs__
 
 ## Day One
 ### Task One
-Number and name of feature: ________________________________
+Number and name of feature: _drop down form______
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: __1 hour___
 
-Start time: _____
+Start time: __9am___
 
-Finish time: _____
+Finish time: ___9:45am__
 
-Actual time needed to complete: __n/a___
+Actual time needed to complete: __45 mins___
 
 ## Day One
 ### Task One
-Number and name of feature: ________________________________
+Number and name of feature: ___________sort by keyword_____________________
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: __1hr___
 
-Start time: _____
+Start time: __9:45am___
 
 Finish time: _____
 

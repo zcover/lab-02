@@ -51,25 +51,18 @@ function renderToPage(){
     })
 }
 
-
 // ============== Form ===============
 //create a function that filters duplicates-- will be used to generate dropdown list
 const populateFilter = () => {
     let filterKeywords = [];
-    console.log('I am at line 58 keywords =', filterKeywords)
     //make an array of unique keywords (allImages)
     allImages.forEach(image => {
-        console.log('I am before the IF keywords =', filterKeywords, 'image is =', image )
 
         if(!filterKeywords.includes(image.keyword)){
-            console.log('I am inside the if statement keywords =', filterKeywords);
-
             filterKeywords.push(image.keyword);
-        
         }
         
     })
-    console.log('i am on 71', filterKeywords);
     //sort alphabetically
     filterKeywords.sort();
 
@@ -79,8 +72,6 @@ const populateFilter = () => {
         $('select').append(optionTag);
     })
 };
-
-
 
 //do something when they click on a selection
 const handleFilter = () => {
